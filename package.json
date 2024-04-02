@@ -1,0 +1,8 @@
+{
+	"name": "foodorder",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Food order app client and server using React Native, Node.js, Express and MongoDB",
+	"author": "Ravi Dubey",
+	"license": "ISC"
+}
