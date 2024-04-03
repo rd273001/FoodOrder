@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
 import { Input, Button } from '@rneui/themed';
 import LinearGradient from 'react-native-linear-gradient';
 import { LinearGradient as CustomLinearGradient } from '../components/LinearGradient';

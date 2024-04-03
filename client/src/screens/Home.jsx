@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions, FlatList } from 'react-native';
-import { SearchBar, Icon, Skeleton, Card } from '@rneui/themed';
-import LinearGradient from 'react-native-linear-gradient';
+import { SearchBar, Icon } from '@rneui/themed';
 import axios from 'axios';
 import { BASE_URL } from '@env';
 import styled from 'styled-components/native';
 import { Colors, Fonts, Styles } from '../utils/CommonStyles';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import { LinearGradient as CustomLinearGradient } from '../components/LinearGradient';
 import { FoodCardSkeleton } from '../components/SkeletonLoader';
+import showToast from '../utils/showToast';
 
 const { width, height } = Dimensions.get( 'window' );
 
@@ -43,7 +42,8 @@ const Home = ( { navigation } ) => {
         console.log( 'Request cancelled:', error.message );
       } else {
         // handle other errors
-        console.error( 'Error fetching data:', error.message );
+        console.log( 'Error fetching data:', error.message );
+        showToast( 'error', error.message );
       }
     } finally {
       setIsLoading( false );
@@ -60,20 +60,19 @@ const Home = ( { navigation } ) => {
   };
 
   const renderFoodItem = ( { item } ) => (
-    <FoodCard>
+    <FoodCard colors={ [Colors.primaryColor3, Colors.primaryColor4] } useAngle>
       {
         isLoading ? <FoodCardSkeleton />
           : <>
-      <FoodItem>
-        <FoodName>Name</FoodName>
-        <FoodPrice>Price</FoodPrice>
-        <FoodType>Type</FoodType>
-      </FoodItem>
-      <FoodItem>
-        <FoodName>{ item.name }</FoodName>
-        <FoodPrice>₹{ item.price }</FoodPrice>
-        <FoodType>{ item.type }</FoodType>
-          </FoodItem >
+            <FoodImage />
+      
+            <FoodDetailContainer>
+              <FoodDetailLeft>
+                <FoodName>{ item.name }</FoodName>
+                <FoodType>{ item.type }</FoodType>
+              </FoodDetailLeft>
+              <FoodPrice>₹{ item.price }</FoodPrice>
+            </FoodDetailContainer>
           </>
       }
     </FoodCard> );
@@ -132,19 +131,30 @@ const SearchContainer = styled( SearchBar ).attrs( props => ( {
 `;
 
 const FoodCard = styled( CustomLinearGradient ).attrs()`
-  flex: 1;
+  flex-direction: row;
+  align-items: center;
   border-radius: ${ width * 0.03 }px;
   margin-bottom: ${ height * 0.02 }px;
   padding: ${ width * 0.03 }px;
   elevation: 7;
 `;
 
-const FoodItem = styled.View`
+const FoodImage = styled.View`
+  height: ${ width * 0.22 }px;
+  width: ${ width * 0.22 }px;
+  border-radius: ${ width * 0.5 }px;
+  background-color: #ffffff55;
+`;
+
+const FoodDetailContainer = styled.View`
+  flex: 1;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  margin-left: ${width * 0.04}px;
   padding-vertical: ${ height * 0.01 }px;
 `;
+
+const FoodDetailLeft = styled.View``;
 
 const FoodName = styled.Text`
   font-size: ${ Fonts.small }px;
@@ -154,6 +164,7 @@ const FoodName = styled.Text`
 
 const FoodPrice = styled.Text`
   font-size: ${ Fonts.small }px;
+  align-self: center;
 `;
 
 const FoodType = styled.Text`
