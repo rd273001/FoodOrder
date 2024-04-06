@@ -5,41 +5,36 @@ import axios from 'axios';
 import { BASE_URL } from '@env';
 import styled from 'styled-components/native';
 import { Colors, Fonts, Styles } from '../utils/CommonStyles';
-import { LinearGradient as CustomLinearGradient } from '../components/LinearGradient';
-import { FoodCardSkeleton } from '../components/SkeletonLoader';
+import FoodListSkeleton from '../components/FoodListSkeleton';
 import showToast from '../utils/showToast';
+import FoodListCard from '../components/FoodListCard';
 
 const { width, height } = Dimensions.get( 'window' );
 
-const Home = ( { navigation } ) => {
+const Home = () => {
   const [foods, setFoods] = useState( [] );
   const [searchText, setSearchText] = useState( '' );
   const [isLoading, setIsLoading] = useState( false );
 
+  // controller for cancelling the previous incomplete Pending request
   const controller = new AbortController();
-  // Create a new cancel token
-  const source = axios.CancelToken.source();
 
   useEffect( () => {
     fetchFoods();
-  }, [searchText] );
+    return () => controller.abort();   // will abort the request pending
+  }, [searchText.trim()] );
 
   const fetchFoods = async () => {
-    if ( searchText && String( searchText ).trim() === '' )
-      return;
     setIsLoading( true );
     try {
       const queryParams = `?search=${ searchText }`;
-      const response = await axios.get( `${ BASE_URL + queryParams }`, {
-        signal: controller.signal,
-        cancelToken: source.token,
-      } );
+      const response = await axios.get( `${ BASE_URL + queryParams }`, { signal: controller.signal } );
       setFoods( response.data );
       console.log( 'Reponse => ', response.data );
     } catch ( error ) {
       if ( axios.isCancel( error ) ) {
         // request was cancelled (due to a new search request)
-        console.log( 'Request cancelled:', error.message );
+        console.log( 'Previous Incomplete Request:', error.message );
       } else {
         // handle other errors
         console.log( 'Error fetching data:', error.message );
@@ -52,30 +47,7 @@ const Home = ( { navigation } ) => {
 
   const handleSearch = ( text ) => {
     setSearchText( text );
-    // cancel the previous request (if any)
-    if ( source ) {
-      source.cancel( 'New request initiated' );
-    }
-    fetchFoods();
   };
-
-  const renderFoodItem = ( { item } ) => (
-    <FoodCard colors={ [Colors.primaryColor3, Colors.primaryColor4] } useAngle>
-      {
-        isLoading ? <FoodCardSkeleton />
-          : <>
-            <FoodImage />
-      
-            <FoodDetailContainer>
-              <FoodDetailLeft>
-                <FoodName>{ item.name }</FoodName>
-                <FoodType>{ item.type }</FoodType>
-              </FoodDetailLeft>
-              <FoodPrice>₹{ item.price }</FoodPrice>
-            </FoodDetailContainer>
-          </>
-      }
-    </FoodCard> );
 
   return (
     <Styles.Container>
@@ -91,84 +63,50 @@ const Home = ( { navigation } ) => {
         searchIcon={ <Icon name='magnify' type='material-community' color={ Colors.primaryColor4 } size={ 25 } /> }
       />
       
-      <FlatList
-        data={ foods }
-        renderItem={ renderFoodItem }
-        ListEmptyComponent={
-          <StyledText>No Food to show.</StyledText>
-        }
-        keyExtractor={ ( item ) => item._id.toString() }
-      />
-      
+      {
+        isLoading
+          ? <FoodListSkeleton />
+          : <FlatList
+            data={ foods }
+            renderItem={ ( { item } ) => <FoodListCard item={ item } /> }
+            ListEmptyComponent={ <StyledText>No Food to show.</StyledText> }
+            keyExtractor={ ( item ) => item._id.toString() }
+          />
+      }
+
     </Styles.Container>
   );
 };
 
-const SearchContainer = styled( SearchBar ).attrs( props => ( {
+const SearchContainerStyles = {
   containerStyle: {
     backgroundColor: 'transparent',
     padding: 0,
     borderTopWidth: 0,
     borderBottomWidth: 0,
-    marginBottom: height * 0.02
+    marginBottom: height * 0.02,
+    marginHorizontal: width * 0.03
   },
   style: {
     padding: 0,
-    color: Colors.primaryColor1
+    color: Colors.primaryColor1,
   },
   inputContainerStyle: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.primaryWhite,
     borderColor: Colors.primaryColor1,
     borderWidth: 1,
-    borderBottomWidth: 1
-  }
+    borderBottomWidth: 1,
+  },
+};
+
+const SearchContainer = styled( SearchBar ).attrs( () => ( {
+  ...SearchContainerStyles
 } ) )`
   flex: 1;
   height: ${ height * 0.065 }px;
   padding: 0 8px 0 8px;
   margin: 0;
   color: ${Colors.secondaryBlack};
-`;
-
-const FoodCard = styled( CustomLinearGradient ).attrs()`
-  flex-direction: row;
-  align-items: center;
-  border-radius: ${ width * 0.03 }px;
-  margin-bottom: ${ height * 0.02 }px;
-  padding: ${ width * 0.03 }px;
-  elevation: 7;
-`;
-
-const FoodImage = styled.View`
-  height: ${ width * 0.22 }px;
-  width: ${ width * 0.22 }px;
-  border-radius: ${ width * 0.5 }px;
-  background-color: #ffffff55;
-`;
-
-const FoodDetailContainer = styled.View`
-  flex: 1;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-left: ${width * 0.04}px;
-  padding-vertical: ${ height * 0.01 }px;
-`;
-
-const FoodDetailLeft = styled.View``;
-
-const FoodName = styled.Text`
-  font-size: ${ Fonts.small }px;
-  font-weight: bold;
-  color: ${ Colors.secondaryBlack };
-`;
-
-const FoodPrice = styled.Text`
-  font-size: ${ Fonts.small }px;
-  align-self: center;
-`;
-
-const FoodType = styled.Text`
-  font-size: ${ Fonts.small }px;
 `;
 
 const StyledText = styled.Text`

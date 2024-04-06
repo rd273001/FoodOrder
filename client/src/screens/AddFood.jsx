@@ -6,7 +6,7 @@ import { LinearGradient as CustomLinearGradient } from '../components/LinearGrad
 import styled from 'styled-components/native';
 import axios from 'axios';
 import { BASE_URL } from '@env';
-import { Colors, Fonts, Styles } from '../utils/CommonStyles';
+import { Colors, Styles } from '../utils/CommonStyles';
 import LoadingIndicator from '../components/LoadingIndicator';
 import showToast from '../utils/showToast';
 
@@ -68,10 +68,10 @@ const AddFood = ( { navigation } ) => {
       showToast( 'success', 'Food Added Successfully...' );
       setFoodDetails( { name: null, price: null, type: null } );
       setError( { nameError: null, priceError: null, typeError: null } );
-      navigation.goBack();
+      navigation.navigate( 'Home' );
     } catch ( error ) {
-      console.log( 'Error adding food:', error.message );
-      showToast( 'error', 'Failed to add food. Please try again.' );
+      // console.log( 'Error adding food:', error.message );
+      showToast( 'error', 'Failed to add food', { text2: error.message } );
     } finally {
       setIsLoading( false );
     }
@@ -83,8 +83,8 @@ const AddFood = ( { navigation } ) => {
 
   return (
     <Styles.ScrollViewContainer>
-      <Form colors={ [`${ Colors.greenShade }55`, `${ Colors.blueShade }99`] } useAngle angle={ 160 }>
-        
+
+      <Form colors={ [Colors.primaryBlack, Colors.greenShade] } useAngle angle={ 210 }>
         <FormField
           value={ name }
           onChangeText={ text => updateText( 'name', text ) }
@@ -119,16 +119,15 @@ const AddFood = ( { navigation } ) => {
           radius='lg'
           ViewComponent={ LinearGradient }
           linearGradientProps={ {
-            colors: [Colors.blueShade, Colors.greenShade],
+            colors: [Colors.primaryBlack, Colors.greenShade],
             useAngle: true,
             angle: 120
           } }
         />
-        
       </Form>
       
       <LoadingIndicator visible={ isLoading } />
-
+        
     </Styles.ScrollViewContainer>
   );
 };
@@ -136,34 +135,38 @@ const AddFood = ( { navigation } ) => {
 const Form = styled(CustomLinearGradient)`
   padding: ${ width * 0.1 }px ${ width * 0.05 }px;
   border-radius: ${ width * 0.05 }px;
+  margin: ${ width * 0.035 }px;
 `;
 
-const FormField = styled(Input).attrs(() => ({
+const FormField = styled( Input ).attrs( () => ( {
   inputContainerStyle: {
-    borderWidth: 1,
-    borderBottomWidth: 3,
-    borderColor: Colors.blueShade,
+    borderWidth: 0.5,
+    borderBottomWidth: 2,
+    borderColor: '#ffffff99',
     borderRadius: width * 0.03,
     padding: width * 0.012,
-    backgroundColor: '#ffffff33',
+    backgroundColor: '#00000022',
   },
   labelStyle: {
-    color: Colors.blueShade,
+    color: Colors.secondaryBlack,
     fontSize: width * 0.045,
   },
+  placeholderTextColor: '#ffffff55',
   containerStyle: {
     marginBottom: height * 0.03,
     paddingHorizontal: 0,
   },
   inputStyle: {
-    color: Colors.primaryBlack,
+    color: Colors.primaryWhite,
   },
-}))``;
+} ) )``;
 
 const AddButton = styled( Button ).attrs( () => ( {
   buttonStyle: {
     marginTop: height * 0.035,
     paddingVertical: height * 0.015,
+    borderWidth: 1,
+    borderColor: '#000'
   },
   titleStyle: {
     fontWeight: 'bold',

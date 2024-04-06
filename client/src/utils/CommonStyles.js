@@ -11,7 +11,7 @@ const Colors = {
   primaryColor3: '#742DDD',
   primaryColor4: '#C2A9FA',
   primaryBlack: '#333333',
-  secondaryBlack: '#000',
+  secondaryBlack: '#000000',
   primaryWhite: '#FFFFFF',
   greenShade: '#6FCABA',
   blueShade: '#5C63D8'
@@ -27,7 +27,7 @@ const Fonts = {
 const Styles = {
   Container: styled.View`
     flex: 1;
-    padding: ${ width * 0.035 }px;
+    padding: ${ width * 0.035 }px 0;
     background-color: ${ Colors.primaryBackgroundColor1 };
   `,
   CenteredConatiner: styled.View`
@@ -43,8 +43,7 @@ const Styles = {
       justifyContent: 'center',
     }
   } ) )`
-    flex: 1;
-    padding-horizontal: ${ width * 0.03 }px; 
+    flex: 1; 
     backgroundColor: ${ Colors.primaryBackgroundColor1 };
   `,
 };
