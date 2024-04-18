@@ -1,7 +1,6 @@
 const express = require( 'express' );
 const app = express();
 const cors = require( 'cors' );
-const bodyParser = require( 'body-parser' );
 const mongoose = require( 'mongoose' );
 require('dotenv').config();   // import environment variables
 
@@ -15,7 +14,7 @@ mongoose.connect( uri )
 
 // middleware
 app.use( cors() );
-app.use( bodyParser.json() );
+app.use( express.json() );
 
 // API routes
 const foodRoutes = require( './routes/food' );

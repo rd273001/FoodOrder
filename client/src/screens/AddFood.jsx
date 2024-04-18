@@ -84,7 +84,7 @@ const AddFood = ( { navigation } ) => {
   return (
     <Styles.ScrollViewContainer>
 
-      <Form colors={ [Colors.primaryBlack, Colors.greenShade] } useAngle angle={ 210 }>
+      <Form colors={ [Colors.primaryColor2, Colors.primaryColor4] } useAngle angle={ 210 }>
         <FormField
           value={ name }
           onChangeText={ text => updateText( 'name', text ) }
@@ -116,10 +116,9 @@ const AddFood = ( { navigation } ) => {
         <AddButton
           title="Add Food"
           onPress={ handleAddFood }
-          radius='lg'
           ViewComponent={ LinearGradient }
           linearGradientProps={ {
-            colors: [Colors.primaryBlack, Colors.greenShade],
+            colors: [Colors.primaryColor2, Colors.primaryColor4],
             useAngle: true,
             angle: 120
           } }
@@ -141,11 +140,11 @@ const Form = styled(CustomLinearGradient)`
 const FormField = styled( Input ).attrs( () => ( {
   inputContainerStyle: {
     borderWidth: 0.5,
-    borderBottomWidth: 2,
-    borderColor: '#ffffff99',
+    borderBottomWidth: 0.5,
+    borderColor: '#fff',
     borderRadius: width * 0.03,
     padding: width * 0.012,
-    backgroundColor: '#00000022',
+    backgroundColor: '#00000033',
   },
   labelStyle: {
     color: Colors.secondaryBlack,
@@ -163,10 +162,13 @@ const FormField = styled( Input ).attrs( () => ( {
 
 const AddButton = styled( Button ).attrs( () => ( {
   buttonStyle: {
+    paddingVertical: height * 0.012,
+  },
+  containerStyle: {
     marginTop: height * 0.035,
-    paddingVertical: height * 0.015,
-    borderWidth: 1,
-    borderColor: '#000'
+    borderWidth: 2,
+    borderRadius: width * 0.045,
+    borderColor: '#00000044'
   },
   titleStyle: {
     fontWeight: 'bold',

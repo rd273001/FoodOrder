@@ -27,7 +27,7 @@ const Fonts = {
 const Styles = {
   Container: styled.View`
     flex: 1;
-    padding: ${ width * 0.035 }px 0;
+    padding-top: ${ width * 0.035 }px;
     background-color: ${ Colors.primaryBackgroundColor1 };
   `,
   CenteredConatiner: styled.View`

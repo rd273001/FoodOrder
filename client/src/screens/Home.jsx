@@ -12,6 +12,7 @@ import FoodListCard from '../components/FoodListCard';
 const { width, height } = Dimensions.get( 'window' );
 
 const Home = () => {
+  // console.log( 'Base Url => ', BASE_URL );
   const [foods, setFoods] = useState( [] );
   const [searchText, setSearchText] = useState( '' );
   const [isLoading, setIsLoading] = useState( false );
