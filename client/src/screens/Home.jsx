@@ -12,7 +12,6 @@ import FoodListCard from '../components/FoodListCard';
 const { width, height } = Dimensions.get( 'window' );
 
 const Home = () => {
-  // console.log( 'Base Url => ', BASE_URL );
   const [foods, setFoods] = useState( [] );
   const [searchText, setSearchText] = useState( '' );
   const [isLoading, setIsLoading] = useState( false );
@@ -22,7 +21,7 @@ const Home = () => {
 
   useEffect( () => {
     fetchFoods();
-    return () => controller.abort();   // will abort the request pending
+    return () => controller.abort();   // will abort the request pending when User types next character
   }, [searchText.trim()] );
 
   const fetchFoods = async () => {

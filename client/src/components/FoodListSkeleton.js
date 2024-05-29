@@ -9,7 +9,7 @@ const { width, height } = Dimensions.get( 'window' );
 const FoodListSkeleton = () => {
   return (
 
-    // length is 11(safe case) because max  9-10  cards can be visible at a time as per height of card
+    // length is 6 because max 5 cards can be visible at a time as per height of card
     [...Array( 6 )].map( ( _, index ) => (
       <FoodCard key={ index } colors={ [Colors.primaryColor3, Colors.primaryColor4] } useAngle>
         <SkeletonPlaceholder backgroundColor='#C9C9C9' borderRadius={ width * 0.03 }>
