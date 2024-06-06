@@ -1,6 +1,16 @@
-# Food Ordering React Native App
+# Food Order
 
 This is a React Native application for ordering food, built with React Native for the frontend and Node.js with Express.js for the backend. The application allows users to search for food items, filter them by name, price, and type, and view detailed information about each item.
+
+## Technologies Used
+
+[![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](#) &nbsp;&nbsp;
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](#) &nbsp;&nbsp; 
+[![Node.js](https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](#) &nbsp;&nbsp;
+[![Express.js](https://img.shields.io/badge/Express%20js-000000?style=for-the-badge&logo=express&logoColor=white)](#) &nbsp;&nbsp;
+[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](#) &nbsp;&nbsp;
+[![Styled-Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)](#) &nbsp;&nbsp;
+[![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)](#)
 
 ## Project Structure
 
